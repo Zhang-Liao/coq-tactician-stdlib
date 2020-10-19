@@ -56,18 +56,18 @@ clean:
 theories/Init/%.vo theories/Init/%.glob: theories/Init/%.v $(PLUGINFILES) Features.v | .vfiles.d
 	@rm -f $*.glob
 	@echo "coqc $<"
-	@$(BOOTCOQC) -noinit -R theories Coq $<
+	$(BOOTCOQC) -noinit -R theories Coq $<
 
 # We have to make sure that Record.v get compiled first.
 user-contrib/Tactician/%.vo: user-contrib/Tactician/%.v user-contrib/Tactician/Ltac1/Record.vo $(PLUGINFILES) Features.v | .vfiles.d
 	@rm -f $*.glob
 	@echo "coqc $<"
-	@$(COQBIN)coqc -q -coqlib . -I $(TACTICIANSRC) -noinit $<
+	$(COQBIN)coqc -q -coqlib . -I $(TACTICIANSRC) -noinit $<
 
 %.vo %.glob: %.v theories/Init/Prelude.vo $(PLUGINFILES) Features.v | .vfiles.d
 	@rm -f $*.glob
 	@echo "coqc $<"
-	@$(BOOTCOQC) $<
+	$(BOOTCOQC) $<
 
 # We compile a second time in case of benchmarking, for performance reasons (due to improved parallelism)
 # This is ugly again, because we need to block coqc from actually writing the .vo file
@@ -86,7 +86,7 @@ theories/Init/%.bench: theories/Init/%.v theories/Init/%.vo Benchmark.v
 %.v %.cmxs:
 	@echo "Linking $@"
 	@mkdir --parents $(dir $@)
-	@ln -s -T $(COQLIB)$@ $@
+	@ln -T $(COQLIB)$@ $@
 
 # Special target for Ltac.v, so that we can set the proper default proof mode
 theories/Init/Ltac.v:
