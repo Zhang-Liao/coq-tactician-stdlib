@@ -1,0 +1,1 @@
+/home/zhangliao/.opam/coq-switch/lib/coq/plugins/setoid_ring/Ncring_tac.v
